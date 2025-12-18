@@ -3,13 +3,13 @@ from activations import Activation
 
 class Layer:
     def __init__(self, n_inputs, n_neurons , activation: str = 'relu', l2_lambda: float = 0.01):
-        self.weights = .10 * np.random.randn(n_inputs, n_neurons) #avoiding vanishing weights by inizialing weights (without systamtic approach) and avoiding exploding weights
-        self.biases = np.zeros(1, n_neurons)
+        self.W = .10 * np.random.randn(n_inputs, n_neurons) #avoiding vanishing weights by inizialing weights (without systamtic approach) and avoiding exploding weights
+        self.b = np.zeros((1, n_neurons))
         self.activation_name = activation
         self.l2_lambda = l2_lambda
 
-        self.dW = np.zeros_like(self.weights)
-        self.db = np.zeros_like(self.biases)
+        self.dW = np.zeros_like(self.W)
+        self.db = np.zeros_like(self.b)
 
         #for backporpation we need a cache
 
@@ -20,13 +20,13 @@ class Layer:
             'relu': (Activation.relu, Activation.relu_derivative),
             'sigmoid': (Activation.sigmoid, Activation.sigmoid_derivative),
             'tanh': (Activation.tanh, Activation.tanh_derivative),
-            
+            'linear': (Activation.linear, Activation.linear_derivative)
         }
         self.activation, self.activation_derivative = self.activation_funcs[activation]
 
 
     def forward(self, X):
-        Z = np.dot(X, self.weights) + self.biases
+        Z = np.dot(X, self.W) + self.b
         A = self.activation(Z)
         self.cache = {
             'X' : X, # the input
@@ -65,7 +65,7 @@ class Layer:
     def update_parameters(self, learning_rate: float):
         """Update weights and biases using gradient descent."""
         self.W -= learning_rate * self.dW
-        self.b -= learning_rate * self.d
+        self.b -= learning_rate * self.db
 
     def get_parameters(self):
         """Return current parameters."""

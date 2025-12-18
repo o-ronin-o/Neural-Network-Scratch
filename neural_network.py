@@ -1,5 +1,5 @@
-from typing import List
-from pyparsing import Dict
+from typing import List, Dict
+
 from layers import Layer
 from learning_rate_scheduler import LearningRateScheduler
 from loss import MSELoss
@@ -39,7 +39,7 @@ class NeuralNetwork:
     
     def backward(self, grad_loss):
         grad = grad_loss
-        for layer in self.layers:
+        for layer in reversed(self.layers):
             grad = layer.backward(grad)
     def update_parameters(self):
         if self.scheduler:
@@ -76,7 +76,11 @@ class NeuralNetwork:
         n_samples = X_train.shape[0]
 
         for epoch in range(epochs):
-            self.scheduler.step(epoch)
+            if self.scheduler:
+                self.scheduler.step(epoch)
+                lr = self.scheduler.get_lr()
+            else:
+                lr = self.learning_rate
 
             indices = np.random.permutation(n_samples)
             X_shuffled = X_train[indices]
@@ -91,10 +95,11 @@ class NeuralNetwork:
 
                 epoch_loss += batch_loss * X_batch.shape[0]
 
-            epoch /= n_samples
-
+            epoch_loss /= n_samples
             self.history['train_loss'].append(epoch_loss)
-            self.history['learning_rate'].append(self.scheduler.get_lr())
+
+            
+            self.history['learning_rate'].append(lr)
 
             
             if verbose and epoch % 10 == 0:
@@ -120,12 +125,13 @@ class NeuralNetwork:
     def build_neural_network(self, layer_config):
         """
         expects configration for the whole nn  for examples as follows: 
-        [
-        {'input_dim': 10, 'output_dim': 16, 'activation': 'relu'},
-        {'input_dim': 16, 'output_dim': 8, 'activation': 'relu'},
-        {'input_dim': 8, 'output_dim': 1, 'activation': 'tanh'}
+        layer_config = [
+            {'n_inputs': 10, 'n_neurons': 16, 'activation': 'relu'},
+            {'n_inputs': 16, 'n_neurons': 8, 'activation': 'relu'},
+            {'n_inputs': 8, 'n_neurons': 1, 'activation': 'tanh'}
         ]
         """
+        layers = []
         for config in layer_config:
             layer = Layer(
                 n_inputs=config['n_inputs'],
@@ -133,5 +139,6 @@ class NeuralNetwork:
                 activation=config.get('activation', 'relu'),
                 l2_lambda=self.l2_lambda
             )
-            self.layers.append(layer)
+            layers.append(layer)
+        return layers
         

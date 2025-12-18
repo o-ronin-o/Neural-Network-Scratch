@@ -28,3 +28,13 @@ class Activation:
     def tanh_derivative(x: np.ndarray) -> np.ndarray:
         """Derivative of tanh: 1 - tanh²(x)"""
         return 1 - np.tanh(x) ** 2
+    
+    @staticmethod
+    def linear(x: np.ndarray) -> np.ndarray:
+        """Linear activation (no transformation)"""
+        return x
+    
+    @staticmethod
+    def linear_derivative(x: np.ndarray) -> np.ndarray:
+        """Derivative of linear activation: 1"""
+        return np.ones_like(x)
