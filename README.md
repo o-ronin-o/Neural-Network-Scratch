@@ -68,4 +68,4 @@ print("Predictions:\n", predictions)
 
 
 ## Conclusion
-This project isn’t just code — it’s **proof of my learning journey** in deep learning fundamentals. Every line of this network represents a step in mastering neural networks at a low level, and it has given me **confidence to experiment with more complex architectures in the future**.
+This project isn’t just code, it’s **proof of my learning journey** in deep learning fundamentals. Every line of this network represents a step in mastering neural networks at a low level, and it has given me **confidence to experiment with more complex architectures in the future**.
