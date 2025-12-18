@@ -1,0 +1,39 @@
+{
+    // Disable IntelliSense suggestions
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    },
+
+    // Disable parameter hints
+    "editor.parameterHints.enabled": false,
+
+    // Disable function signature help
+    //"editor.hover.enabled": false,
+
+    // Disable suggestion popup
+    //"editor.suggestOnTriggerCharacters": false,
+
+    // Prevent auto-insert of closing brackets and quotes
+    //"editor.autoClosingBrackets": "never",
+   //"editor.autoClosingQuotes": "never",
+
+    // Disable snippet suggestions
+    "editor.snippetSuggestions": "none",
+
+    // Disable Tab completion
+    //"editor.tabCompletion": "off",
+
+    // Disable VS Code's inline autocomplete
+    //"editor.inlineSuggest.enabled": false,
+
+    // Disable suggestion preview
+    //"editor.suggest.preview": false,
+
+    // Disable ghost text
+    "editor.inlineSuggest.enabled": false,
+
+    // Disable code actions automatically appearing
+    "editor.lightbulb.enabled": "off"
+}
